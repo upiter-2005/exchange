@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useState, useEffect } from "react";
+import "./App.css";
+import Pair from "./Pair";
+import AskBid from "./AskBid";
+import { allPairsUrl } from "./api/apiUrls";
 function App() {
+  const [newPairs, setNewPairs] = useState([]);
+
+  const getAllPairs = async (url) => {
+    const dataPairs = await fetch(url)
+      .then((data) => data.json())
+      .then((data) => data);
+    const newPairs = dataPairs.filter((obj) => obj.symbol.includes("USDT"));
+    const listPairs = newPairs.slice(0, 30);
+
+    setNewPairs(listPairs);
+    console.log("getPair");
+  };
+
+  useEffect(() => {
+    getAllPairs(allPairsUrl);
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {newPairs.map((obj) => (
+        <Pair name={obj.symbol} key={obj.symbol} />
+      ))}
+
+      <AskBid />
     </div>
   );
 }
