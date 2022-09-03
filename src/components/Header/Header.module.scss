@@ -1,0 +1,39 @@
+$accent: #00cce1;
+.header{
+    background-color: #1a1a1a;
+    padding: 20px 10px;
+    &Inner{
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &Desc{
+        font-size: 18px;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+    &Logo{
+        color: $accent;
+        font-weight: 800;
+        font-size: 36px;
+       
+    }
+    &LogIn{
+        background-color: $accent;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        margin: 0 10px;
+    }
+    &Link{
+        color: #dddddd;
+        text-decoration: none;
+        font-weight: 600;
+        margin: 0 10px;
+    }
+}

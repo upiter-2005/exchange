@@ -1,19 +1,19 @@
-import React from "react";
 import { useEffect, useState } from "react";
 
 export default function AskBid() {
   const [ask, setAsk] = useState([]);
   useEffect(() => {
-    let bid = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms");
+    const bid = new WebSocket(
+      "wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms"
+    );
     bid.addEventListener("message", (e) => {
-      let bid = JSON.parse(e.data);
-      setAsk(bid.bids);
+      const response = JSON.parse(e.data);
+      setAsk(response.bids);
     });
   }, []);
+
   return (
     <div>
-      {/* {console.log(ask)} */}
-
       {ask.map((obj, i) => (
         <li key={i}>
           <span>{obj[0]}</span>

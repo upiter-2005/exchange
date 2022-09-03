@@ -1,0 +1,36 @@
+$accent: #00cce1;
+.askBid{
+    border: 1px solid #6d7074;
+    padding: 12px 8px 12px 4px;
+    
+    min-width: 280px;
+    &Inner{
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: 300px;
+        padding: 10px;
+    }
+    &CurrentPrice{
+        color: $accent;
+        font-size: 26px;
+        font-weight: 600;
+        padding: 8px;
+        background-color: rgb(41, 41, 41);
+    }
+    .askBidItem{
+        display: flex;
+        justify-content: space-between;
+        color: #a9b0bb;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 8px ;
+    }
+    &Title{
+        display: flex;
+        justify-content: space-between;
+        color: #a9b0bb;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 8px ;
+    }
+}

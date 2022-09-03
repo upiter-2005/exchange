@@ -1,0 +1,15 @@
+.container{
+    max-width: 1400px;
+    width: 100%;
+    margin: 10px auto;
+    display: flex;
+    .bidAsk{
+        flex: 1;
+    }
+    .chart{
+        flex: 3;
+    }
+    .listCurrencies{
+        flex: 1;
+    }
+}
