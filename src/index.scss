@@ -51,3 +51,18 @@ code {
 .favoriteIcon{
   font-size: 18px;
 }
+.currentPrice{
+  color: $accent;
+  font-size: 26px;
+  font-weight: 600;
+  padding: 8px;
+  background-color: rgb(41, 41, 41);
+}
+.low{
+  color: red!important;
+ 
+}
+.askBidArrow{
+  position: relative;
+  top: 2px;
+}

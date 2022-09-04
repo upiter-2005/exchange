@@ -22,8 +22,18 @@ $accent: #00cce1;
         justify-content: space-between;
         color: #a9b0bb;
         font-size: 15px;
-        font-weight: 600;
+        font-weight: 500;
         padding: 8px ;
+        &:hover{
+            background-color: rgb(95, 95, 95);
+            cursor: pointer;
+        }
+    }
+    .askBidInnerGreen{
+            color: rgb(77, 147, 77)!important;
+    }
+    .askBidInnerRed{
+            color: rgb(255, 98, 55)!important;
     }
     &Title{
         display: flex;
