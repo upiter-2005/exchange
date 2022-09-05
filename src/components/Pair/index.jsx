@@ -1,9 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import qs from "qs";
+import { setCurrency } from "../../redux/slices/activePair";
+
 import styles from "./Pair.module.scss";
 import { dayDataUrl } from "../../api/apiUrls";
 
 export default function Pair({ name }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const colorPraice = useRef("");
   const persentColor = useRef("");
   const [price, setPrice] = useState(0);
@@ -11,6 +18,12 @@ export default function Pair({ name }) {
   const [formatName, setFormatName] = useState("");
   const [exchangeCurrency, setExchangeCurrency] = useState("USDT");
 
+  const switchCurrency = () => {
+    const queryString = qs.stringify({ pair: name });
+    navigate(`?${queryString}`);
+
+    dispatch(setCurrency(name.replace("USDT", "")));
+  };
   const findPercent = async () => {
     const dayData = await fetch(`${dayDataUrl}${name} `)
       .then((data) => data.json())
@@ -19,7 +32,6 @@ export default function Pair({ name }) {
       ((dayData.lastPrice - dayData.openPrice) / dayData.lastPrice) *
       100
     ).toFixed(2);
-    console.log(priceChangePercent);
     if (priceChangePercent > 0) {
       persentColor.current = "rise";
     } else {
@@ -43,10 +55,6 @@ export default function Pair({ name }) {
     ws.addEventListener("message", (e) => {
       const res = JSON.parse(e.data);
       const roundPrice = parseFloat(res.c).toFixed(2);
-      // const persentCount = (parseFloat(res.l) / 1000).toFixed(2);
-      // setPersent(persentCount);
-      // console.log(res.l);
-      //  setPrice(parseFloat(res.p).toFixed(2));
       findPercent();
       setPrice((prevPrice) => {
         if (prevPrice > roundPrice) {
@@ -63,7 +71,7 @@ export default function Pair({ name }) {
   if (!price) return false;
 
   return (
-    <Link to={`/pair/${name}`} className={styles.pairItem}>
+    <div className={styles.pairItem} onClick={switchCurrency}>
       <div className={styles.pairItemName}>
         <span className={styles.pairWhite}>{formatName}</span>
         <span>{exchangeCurrency}</span>
@@ -72,6 +80,6 @@ export default function Pair({ name }) {
         {price}
       </div>
       <div className={persentColor.current}>{persent}%</div>
-    </Link>
+    </div>
   );
 }

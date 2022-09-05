@@ -1,3 +1,30 @@
+$accent: #00cce1;
 .chartWrapper{
     padding: 0 20px 20px;
+}
+
+.chartIntervals{
+    padding: 0 20px;  
+}
+
+.butInterval{
+    background-color: transparent;
+    color: #bebebe;
+    border: none;
+    cursor: pointer;
+    border-right: 1px solid #bebebe;
+    font-weight: 600;
+    &:hover{
+        color: #fff;
+    }
+    &:last-child{
+        border-right: none;
+    }
+}
+.activeInterval{
+    background-color: $accent!important;
+    color: #444;
+    &:hover{
+        color: #444!important;
+    }
 }

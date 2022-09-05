@@ -1,14 +1,26 @@
 /* eslint-disable consistent-return */
 import { useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ApexCharts from "apexcharts";
+import { setInterval } from "../../redux/slices/activePair";
 import { candlesUrl } from "../../api/apiUrls";
 import styles from "./Chart.module.scss";
+import { intervals } from "../../DB_local/intervals";
 
 export default function Chart() {
+  const dispatch = useDispatch();
   const chartContainer = useRef();
 
+  const currency = useSelector((state) => state.activePair.currency);
+  const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
+  const chartInterval = useSelector((state) => state.activePair.chartInterval);
+
   const makeDataChart = async () => {
-    const response = await fetch(candlesUrl)
+    const chartUrl = candlesUrl(
+      (currency + exchangeTo).toUpperCase(),
+      chartInterval
+    );
+    const response = await fetch(chartUrl)
       .then((data) => data.json())
       .then((data) => data);
     const parseData = [];
@@ -26,6 +38,8 @@ export default function Chart() {
 
     const options = {
       chart: {
+        width: "100%",
+        heaight: "445px",
         type: "candlestick",
         zoom: {
           enabled: true,
@@ -65,7 +79,7 @@ export default function Chart() {
       },
       yaxis: {
         opposite: true,
-        tickAmount: 20,
+        tickAmount: 15,
         tooltip: { enabled: true },
         labels: {
           style: {
@@ -105,12 +119,34 @@ export default function Chart() {
     chart.render();
   };
 
+  // useEffect(() => {
+  //   makeDataChart();
+  // }, []);
   useEffect(() => {
     makeDataChart();
-  }, []);
+  }, [chartInterval, currency, exchangeTo]);
 
   return (
     <div>
+      <div className={styles.chartIntervals}>
+        <span>Time:</span>
+        {intervals.map((obj) => (
+          <button
+            type="button"
+            className={
+              obj === chartInterval
+                ? `${styles.activeInterval} ${styles.butInterval}`
+                : `${styles.butInterval}`
+            }
+            key={obj}
+            onClick={() => {
+              dispatch(setInterval(obj));
+            }}
+          >
+            {obj}
+          </button>
+        ))}
+      </div>
       <div ref={chartContainer} className={styles.chartWrapper}></div>
     </div>
   );

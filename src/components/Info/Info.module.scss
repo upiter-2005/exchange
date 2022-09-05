@@ -1,0 +1,24 @@
+.infoBox{
+    width: 100%;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #292929;
+    margin: 10px 0 25px;
+    &Name{
+        font-size: 26px;
+        font-weight: 700;
+        color: #f8f8f8;
+    }
+    &Item{
+        font-size: 14px;
+        padding: 0 20px;
+        text-align: center;
+        
+    }
+    &Top{
+        color: rgb(159, 159, 159);
+        padding-bottom: 6px;
+    }
+}

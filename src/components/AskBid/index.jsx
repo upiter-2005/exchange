@@ -14,8 +14,9 @@ export default function AskBid() {
   const [currentPrice, setCurrentPrice] = useState(0);
 
   useEffect(() => {
+    const pair = (currency + exchangeTo).toLowerCase();
     const bid = new WebSocket(
-      "wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms"
+      `wss://stream.binance.com:9443/ws/${pair}@depth20@1000ms`
     );
     bid.addEventListener("message", (e) => {
       const response = JSON.parse(e.data);
@@ -23,9 +24,10 @@ export default function AskBid() {
       setBidList(response.bids);
     });
 
-    const pair = (currency + exchangeTo).toLowerCase();
-    const ws = new WebSocket(`wss://stream.binance.com:9443/ws/${pair}@trade`);
-    ws.addEventListener("message", (e) => {
+    const priceSocket = new WebSocket(
+      `wss://stream.binance.com:9443/ws/${pair}@trade`
+    );
+    priceSocket.addEventListener("message", (e) => {
       const res = JSON.parse(e.data);
       const roundPrice = parseFloat(res.p).toFixed(2);
       setCurrentPrice((prevCurrentPrice) => {
@@ -40,25 +42,37 @@ export default function AskBid() {
         return roundPrice;
       });
     });
-  }, []);
+
+    return () => {
+      priceSocket.close();
+      bid.close();
+    };
+  }, [currency]);
 
   return (
     <div className={styles.askBid}>
       <div className={styles.askBidInner}>
         <div className={styles.askBidTitle}>
-          <div>Price</div>
-          <div>
-            Amount <span>(BTC)</span>
+          <div className={styles.askBidColumns}>Price</div>
+          <div className={styles.askBidColumns}>
+            Amount <span>({currency})</span>
           </div>
+          <div className={styles.askBidColumns}>Total({exchangeTo})</div>
         </div>
         {ask.map((obj, i) => (
           <li
             key={i}
             className={`${styles.askBidItem} ${styles.askBidInnerRed}`}
           >
-            <span>{obj[0]}</span>
-            <br />
-            <span>{obj[1]}</span>
+            <span className={styles.askBidColumns}>
+              {parseFloat(obj[0]).toFixed(2)}
+            </span>
+            <span className={styles.askBidColumns}>
+              {parseFloat(obj[1]).toFixed(5)}
+            </span>
+            <span className={styles.askBidColumns}>
+              {parseFloat(obj[0] * obj[1]).toFixed(2)}
+            </span>
           </li>
         ))}
       </div>
@@ -70,20 +84,20 @@ export default function AskBid() {
         </span>
       </div>
       <div className={`${styles.askBidInner} `}>
-        <div className={styles.askBidTitle}>
-          <div>Price</div>
-          <div>
-            Amount <span>(BTC)</span>
-          </div>
-        </div>
         {bidList.map((obj, i) => (
           <li
             key={i}
             className={`${styles.askBidItem} ${styles.askBidInnerGreen}`}
           >
-            <span>{obj[0]}</span>
-            <br />
-            <span>{obj[1]}</span>
+            <span className={styles.askBidColumns}>
+              {parseFloat(obj[0]).toFixed(2)}
+            </span>
+            <span className={styles.askBidColumns}>
+              {parseFloat(obj[1]).toFixed(5)}
+            </span>
+            <span className={styles.askBidColumns}>
+              {parseFloat(obj[0] * obj[1]).toFixed(2)}
+            </span>
           </li>
         ))}
       </div>

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currency: "BTC",
   exchangeTo: "USDT",
+  chartInterval: "1d",
 };
 
 export const activePairSlice = createSlice({
@@ -10,10 +11,13 @@ export const activePairSlice = createSlice({
   initialState,
   reducers: {
     setCurrency: (state, action) => {
-      // state.catId = action.payload;
+      state.currency = action.payload;
+    },
+    setInterval: (state, action) => {
+      state.chartInterval = action.payload;
     },
   },
 });
-export const { setCurrency } = activePairSlice.actions;
+export const { setCurrency, setInterval } = activePairSlice.actions;
 
 export default activePairSlice.reducer;

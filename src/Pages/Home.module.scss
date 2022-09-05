@@ -1,13 +1,19 @@
 .container{
-    max-width: 1400px;
+    max-width: 1450px;
     width: 100%;
     margin: 10px auto;
     display: flex;
+    flex-wrap: wrap;
     .bidAsk{
         flex: 1;
     }
-    .chart{
-        flex: 3;
+    .centerArea{
+        flex: 2;
+       
+    }
+    .chartWrapper{
+        overflow: hidden;
+        height: 445px;
     }
     .listCurrencies{
         flex: 1;
