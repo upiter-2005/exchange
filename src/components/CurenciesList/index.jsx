@@ -2,17 +2,19 @@ import { useState, useEffect } from "react";
 import styles from "./CurenciesList.module.scss";
 import { allPairsUrl } from "../../api/apiUrls";
 import Pair from "../Pair";
+import { list } from "../../utils/settings";
 
 const CurenciesList = () => {
   const [newPairs, setNewPairs] = useState([]);
   const [searchVal, setSearchVal] = useState("");
 
   const getAllPairs = async (url) => {
-    const dataPairs = await fetch(url)
-      .then((data) => data.json())
-      .then((data) => data);
-    const items = dataPairs.filter((obj) => obj.symbol.includes("USDT"));
-    const listPairs = items.slice(0, 12);
+    // const dataPairs = await fetch(url)
+    //   .then((data) => data.json())
+    //   .then((data) => data);
+
+    const items = list.filter((obj) => obj.includes("USDT"));
+    const listPairs = items.slice(0, 30);
 
     setNewPairs(listPairs);
   };
@@ -57,10 +59,11 @@ const CurenciesList = () => {
       <div className={styles.currencyListContainerTitles}>
         <span>Pair</span>
         <span>Price</span>
+        <span>Change 24h</span>
       </div>
       <div className={styles.currencyListContainerInner}>
         {newPairs.map((obj) => (
-          <Pair name={obj.symbol} key={obj.symbol} />
+          <Pair name={obj} key={obj} />
         ))}
       </div>
     </div>
