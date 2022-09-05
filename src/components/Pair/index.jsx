@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import qs from "qs";
 import { setCurrency } from "../../redux/slices/activePair";
 
@@ -10,13 +10,13 @@ import { dayDataUrl } from "../../api/apiUrls";
 export default function Pair({ name }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
 
   const colorPraice = useRef("");
   const persentColor = useRef("");
   const [price, setPrice] = useState(0);
   const [persent, setPersent] = useState(0);
   const [formatName, setFormatName] = useState("");
-  const [exchangeCurrency, setExchangeCurrency] = useState("USDT");
 
   const switchCurrency = () => {
     const queryString = qs.stringify({ pair: name });
@@ -74,7 +74,7 @@ export default function Pair({ name }) {
     <div className={styles.pairItem} onClick={switchCurrency}>
       <div className={styles.pairItemName}>
         <span className={styles.pairWhite}>{formatName}</span>
-        <span>{exchangeCurrency}</span>
+        <span>{exchangeTo}</span>
       </div>
       <div className={`${styles.pairItemPrice} ${colorPraice.current}`}>
         {price}
