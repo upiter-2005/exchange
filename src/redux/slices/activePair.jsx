@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currency: "BTC",
+  currency: "ETH",
   exchangeTo: "USDT",
   chartInterval: "1d",
 };

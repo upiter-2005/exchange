@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import styles from "./AskBid.module.scss";
+import LoaderAsk from "./LoaderAsk";
 
 export default function AskBid() {
   const colorPraice = useRef("");
@@ -12,9 +13,11 @@ export default function AskBid() {
   const [ask, setAsk] = useState([]);
   const [bidList, setBidList] = useState([]);
   const [currentPrice, setCurrentPrice] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const pair = (currency + exchangeTo).toLowerCase();
+    setLoading(false);
     const bid = new WebSocket(
       `wss://stream.binance.com:9443/ws/${pair}@depth20@1000ms`
     );
@@ -22,6 +25,7 @@ export default function AskBid() {
       const response = JSON.parse(e.data);
       setAsk(response.asks);
       setBidList(response.bids);
+      setLoading(true);
     });
 
     const priceSocket = new WebSocket(
@@ -49,6 +53,8 @@ export default function AskBid() {
     };
   }, [currency]);
 
+  const loaderAsk = [...new Array(14)].map((item, i) => <LoaderAsk key={i} />);
+
   return (
     <div className={styles.askBid}>
       <div className={styles.askBidInner}>
@@ -59,22 +65,24 @@ export default function AskBid() {
           </div>
           <div className={styles.askBidColumns}>Total({exchangeTo})</div>
         </div>
-        {ask.map((obj, i) => (
-          <li
-            key={i}
-            className={`${styles.askBidItem} ${styles.askBidInnerRed}`}
-          >
-            <span className={styles.askBidColumns}>
-              {parseFloat(obj[0]).toFixed(2)}
-            </span>
-            <span className={styles.askBidColumns}>
-              {parseFloat(obj[1]).toFixed(5)}
-            </span>
-            <span className={styles.askBidColumns}>
-              {parseFloat(obj[0] * obj[1]).toFixed(2)}
-            </span>
-          </li>
-        ))}
+        {!loading
+          ? loaderAsk
+          : ask.map((obj, i) => (
+              <li
+                key={i}
+                className={`${styles.askBidItem} ${styles.askBidInnerRed}`}
+              >
+                <span className={styles.askBidColumns}>
+                  {parseFloat(obj[0]).toFixed(2)}
+                </span>
+                <span className={styles.askBidColumns}>
+                  {parseFloat(obj[1]).toFixed(5)}
+                </span>
+                <span className={styles.askBidColumns}>
+                  {parseFloat(obj[0] * obj[1]).toFixed(2)}
+                </span>
+              </li>
+            ))}
       </div>
       {/* <div className={styles.askBidCurrentPrice}>{currentPrice}</div> */}
       <div className={`${colorPraice.current} currentPrice`}>
@@ -84,22 +92,24 @@ export default function AskBid() {
         </span>
       </div>
       <div className={`${styles.askBidInner} `}>
-        {bidList.map((obj, i) => (
-          <li
-            key={i}
-            className={`${styles.askBidItem} ${styles.askBidInnerGreen}`}
-          >
-            <span className={styles.askBidColumns}>
-              {parseFloat(obj[0]).toFixed(2)}
-            </span>
-            <span className={styles.askBidColumns}>
-              {parseFloat(obj[1]).toFixed(5)}
-            </span>
-            <span className={styles.askBidColumns}>
-              {parseFloat(obj[0] * obj[1]).toFixed(2)}
-            </span>
-          </li>
-        ))}
+        {!loading
+          ? loaderAsk
+          : bidList.map((obj, i) => (
+              <li
+                key={i}
+                className={`${styles.askBidItem} ${styles.askBidInnerGreen}`}
+              >
+                <span className={styles.askBidColumns}>
+                  {parseFloat(obj[0]).toFixed(2)}
+                </span>
+                <span className={styles.askBidColumns}>
+                  {parseFloat(obj[1]).toFixed(5)}
+                </span>
+                <span className={styles.askBidColumns}>
+                  {parseFloat(obj[0] * obj[1]).toFixed(2)}
+                </span>
+              </li>
+            ))}
       </div>
     </div>
   );

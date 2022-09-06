@@ -41,14 +41,8 @@ export default function Pair({ name }) {
   };
 
   useEffect(() => {
-    // makeCandleChart();
-
     const pair = name.toLowerCase();
-    setFormatName(name.replace("USDT", "/"));
-
-    // const ws = new WebSocket(`wss://stream.binance.com:9443/ws/${pair}@trade`);
-
-    // This request equel to common panel above chart
+    setFormatName(name.replace(exchangeTo, "/"));
     const ws = new WebSocket(
       `wss://stream.binance.com:9443/ws/${pair}@miniTicker`
     );
@@ -66,7 +60,7 @@ export default function Pair({ name }) {
         return roundPrice;
       });
     });
-  }, []);
+  }, [exchangeTo]);
 
   if (!price) return false;
 

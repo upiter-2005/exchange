@@ -1,0 +1,57 @@
+$accent: #00cce1;
+.sellList{
+    border: 1px solid #6d7074;
+    padding: 12px 8px 12px 4px;
+    
+    width: 325px;
+    &Columns{
+        flex: 1 1 0%;
+        text-align: right;
+        &:first-child{
+            text-align: left;
+        }
+    }
+    &Item{
+        display: flex;
+        padding: 4px;
+    }
+    &Inner{
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: 300px;
+        padding: 10px;
+    }
+    &CurrentPrice{
+        color: $accent;
+        font-size: 26px;
+        font-weight: 600;
+        padding: 8px;
+        background-color: rgb(41, 41, 41);
+    }
+    .askBidItem{
+        display: flex;
+        justify-content: space-between;
+        color: #a9b0bb;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 6px ;
+        &:hover{
+            background-color: rgb(95, 95, 95);
+            cursor: pointer;
+        }
+    }
+    &InnerGreen{
+            color: rgb(77, 147, 77)!important;
+    }
+    &InnerRed{
+            color: rgb(255, 98, 55)!important;
+    }
+    &Title{
+        display: flex;
+        justify-content: space-between;
+        color: #a9b0bb;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 8px ;
+    }
+}
