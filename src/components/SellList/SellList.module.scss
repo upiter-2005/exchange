@@ -7,6 +7,7 @@ $accent: #00cce1;
     &Columns{
         flex: 1 1 0%;
         text-align: right;
+        font-size: 14px;
         &:first-child{
             text-align: left;
         }

@@ -9,12 +9,13 @@
     }
     .centerArea{
         flex: 2;
-       
+       .tradeContainer{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+       }
     }
-    .chartWrapper{
-        overflow: hidden;
-        height: 445px;
-    }
+    
     .listCurrencies{
         flex: 1;
     }

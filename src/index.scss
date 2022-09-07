@@ -73,3 +73,77 @@ code {
   background:#1a1a1a!important;
   color:#f0f0f0!important;    
   }
+
+  // tradeBox styles
+
+.tradeBox{
+  flex: 1 1 0;
+  padding: 15px;
+  margin: 12px;
+  background-color: rgb(57, 57, 57);
+  border-radius: 10px;
+  .avaliable{
+    font-size: 14px;
+    color: rgb(154, 154, 154);
+    padding-bottom: 10px;
+    &__value{
+      color: #fff;
+    }
+  }
+  &__field{
+    width: 100%;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+    color: #eaecef;
+    font-weight: 600;
+    &:focus{
+      border: 2px solid $accent;
+    }
+    &-input{
+      text-align: right;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+    }
+    &-prefix{
+      min-width: 55px;
+    }
+    &-sufix{
+      min-width: 45px;
+      text-align: right;
+    }
+  }
+  .MuiSlider-thumbColorPrimary{
+    color: $accent;
+  }
+  .css-eg0mwd-MuiSlider-thumb{
+    width: 16px;
+    height: 16px;
+  }
+  .css-1tfve6q-MuiSlider-mark{
+    width: 2px;
+    height: 14px;
+    background-color: $accent;
+
+  }
+  .css-yafthl-MuiSlider-markLabel{
+    color: #f8f8f8;
+  }
+  .css-1eoe787-MuiSlider-markLabel{
+    color: #f8f8f8;
+  }
+  .css-1gv0vcd-MuiSlider-track{
+    background-color: $accent;
+  }
+  .css-14pt78w-MuiSlider-rail{
+    background-color: #ffffff;
+  }
+}  

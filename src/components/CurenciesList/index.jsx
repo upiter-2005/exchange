@@ -6,7 +6,7 @@ import { list } from "../../utils/settings";
 
 const CurenciesList = () => {
   const [newPairs, setNewPairs] = useState([]);
-  // const [searchVal, setSearchVal] = useState("");
+  const [searchVal, setSearchVal] = useState("");
 
   const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
 
@@ -16,24 +16,24 @@ const CurenciesList = () => {
 
     setNewPairs(listPairs);
   };
-  // const filterPairs = (query) => {
-  //   const filtered = list.filter((obj) => obj.includes(query.toUpperCase()));
+  const filterPairs = (query) => {
+    const filtered = list.filter((obj) => obj.includes(query.toUpperCase()));
 
-  //   setNewPairs(filtered);
-  //   console.log(filtered);
-  // };
+    setNewPairs(filtered);
+    console.log(filtered);
+  };
   useEffect(() => {
     getAllPairs();
   }, [exchangeTo]);
 
-  // const findPair = (e) => {
-  //   setSearchVal(e.target.value);
-  //   filterPairs(e.target.value);
-  // };
+  const findPair = (e) => {
+    setSearchVal(e.target.value);
+    filterPairs(e.target.value);
+  };
 
   return (
     <div className={styles.currencyListContainer}>
-      {/* <div className={styles.currencyListSearch}>
+      <div className={styles.currencyListSearch}>
         <span className="material-symbols-outlined searchInput">search</span>
         <input
           type="text"
@@ -59,7 +59,7 @@ const CurenciesList = () => {
         <button type="button" className="filterButton">
           UAH
         </button>
-      </div> */}
+      </div>
       <div className={styles.currencyListContainerTitles}>
         <span>Pair</span>
         <span>Price</span>
