@@ -11,7 +11,8 @@ export const activePairSlice = createSlice({
   initialState,
   reducers: {
     setCurrency: (state, action) => {
-      state.currency = action.payload;
+      state.currency = action.payload.currency;
+      state.exchangeTo = action.payload.exchangeTo;
     },
     setInterval: (state, action) => {
       state.chartInterval = action.payload;

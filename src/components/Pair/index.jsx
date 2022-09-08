@@ -25,7 +25,12 @@ export default function Pair({ name }) {
     const queryString = qs.stringify({ pair: name });
     navigate(`?${queryString}`);
 
-    dispatch(setCurrency(name.replace(exchangeTo, "")));
+    dispatch(
+      setCurrency({
+        currency: name.replace(exchangeTo, ""),
+        exchangeTo: filter.toUpperCase(),
+      })
+    );
   };
 
   const findPercent = () => {
@@ -34,8 +39,8 @@ export default function Pair({ name }) {
     if (filter === "btc") point = 6;
     if (filter === "bnb") point = 6;
     const pair = (name + filter).toUpperCase();
-    setTimeout(async () => {
-      const dayData = await fetch(`${dayDataUrl}${pair}`, { mode: "no-cors" })
+    setInterval(async () => {
+      const dayData = await fetch(`${dayDataUrl}${pair}`)
         .then((data) => data.json())
         .then((data) => data);
       const priceChangePercent = (

@@ -15,8 +15,9 @@ const CurenciesList = () => {
 
   const getAllPairs = () => {
     const items = filterList[filter];
-    const listPairs = items.slice(0, 25);
-    setNewPairs(listPairs);
+    // const listPairs = items.slice(0, 25);
+
+    setNewPairs(items);
   };
 
   const filterPairs = (val) => {
@@ -25,6 +26,7 @@ const CurenciesList = () => {
 
   useEffect(() => {
     getAllPairs();
+    console.log(newPairs);
   }, [filter]);
 
   const findPair = (e) => {
