@@ -6,8 +6,9 @@
     align-items: center;
     background-color: #292929;
     margin: 0 0 10px ;
+    box-sizing: border-box;
     &Name{
-        font-size: 26px;
+        font-size: 22px;
         font-weight: 700;
         color: #f8f8f8;
     }
@@ -20,5 +21,6 @@
     &Top{
         color: rgb(159, 159, 159);
         padding-bottom: 6px;
+        white-space: nowrap;
     }
 }

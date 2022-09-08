@@ -122,7 +122,12 @@ export default function ChartBox() {
           </button>
         ))}
       </div>
-      <Chart options={chartSettings} series={candles} type="candlestick" />
+      <Chart
+        options={chartSettings}
+        series={candles}
+        height="430px"
+        type="candlestick"
+      />
     </div>
   );
 }

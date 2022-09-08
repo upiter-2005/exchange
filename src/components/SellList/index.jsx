@@ -33,7 +33,6 @@ export default function SellList() {
     );
     sell.addEventListener("message", (e) => {
       const response = JSON.parse(e.data);
-      console.log(response);
       setLoading(true);
       const time = formatDate(response.E);
       const price = parseFloat(response.p).toFixed(2);

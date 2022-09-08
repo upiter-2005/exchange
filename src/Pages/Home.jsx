@@ -6,27 +6,31 @@ import AskBid from "../components/AskBid";
 import ChartBox from "../components/ChartBox";
 import SellList from "../components/SellList";
 import Buy from "../components/Buy";
+import Sell from "../components/Sell";
+import UserActions from "../components/UserActions";
 
 const Home = () => (
   <div className={styles.container}>
-    <Info />
     <div className={styles.bidAsk}>
       <AskBid />
     </div>
     <div className={styles.centerArea}>
       <div className={styles.chartWrapper}>
+        <Info />
         <ChartBox />
       </div>
 
       <div className={styles.tradeContainer}>
         <Buy />
-        <Buy />
+        <Sell />
       </div>
     </div>
     <div className={styles.listCurrencies}>
       <CurenciesList />
       <SellList />
     </div>
+
+    <UserActions />
   </div>
 );
 

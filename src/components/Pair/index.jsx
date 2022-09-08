@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import qs from "qs";
 import { setCurrency } from "../../redux/slices/activePair";
 
+import LoaderAsk from "./LoaderAsk";
+
 import styles from "./Pair.module.scss";
 import { dayDataUrl } from "../../api/apiUrls";
 
@@ -11,6 +13,7 @@ export default function Pair({ name }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
+  const filter = useSelector((state) => state.filter.filterTo);
 
   const colorPraice = useRef("");
   const persentColor = useRef("");
@@ -22,34 +25,30 @@ export default function Pair({ name }) {
     const queryString = qs.stringify({ pair: name });
     navigate(`?${queryString}`);
 
-    dispatch(setCurrency(name.replace("USDT", "")));
-  };
-  const findPercent = async () => {
-    const dayData = await fetch(`${dayDataUrl}${name} `)
-      .then((data) => data.json())
-      .then((data) => data);
-    const priceChangePercent = (
-      ((dayData.lastPrice - dayData.openPrice) / dayData.lastPrice) *
-      100
-    ).toFixed(2);
-    if (priceChangePercent > 0) {
-      persentColor.current = "rise";
-    } else {
-      persentColor.current = "low";
-    }
-    setPersent(priceChangePercent);
+    dispatch(setCurrency(name.replace(exchangeTo, "")));
   };
 
-  useEffect(() => {
-    const pair = name.toLowerCase();
-    setFormatName(name.replace(exchangeTo, "/"));
-    const ws = new WebSocket(
-      `wss://stream.binance.com:9443/ws/${pair}@miniTicker`
-    );
-    ws.addEventListener("message", (e) => {
-      const res = JSON.parse(e.data);
-      const roundPrice = parseFloat(res.c).toFixed(2);
-      findPercent();
+  const findPercent = () => {
+    let point = 2;
+    if (filter === "eth") point = 4;
+    if (filter === "btc") point = 6;
+    if (filter === "bnb") point = 6;
+    const pair = (name + filter).toUpperCase();
+    setTimeout(async () => {
+      const dayData = await fetch(`${dayDataUrl}${pair}`, { mode: "no-cors" })
+        .then((data) => data.json())
+        .then((data) => data);
+      const priceChangePercent = (
+        ((dayData.lastPrice - dayData.openPrice) / dayData.lastPrice) *
+        100
+      ).toFixed(2);
+      if (priceChangePercent > 0) {
+        persentColor.current = "rise";
+      } else {
+        persentColor.current = "low";
+      }
+
+      const roundPrice = parseFloat(dayData.askPrice).toFixed(point);
       setPrice((prevPrice) => {
         if (prevPrice > roundPrice) {
           colorPraice.current = "low";
@@ -59,16 +58,41 @@ export default function Pair({ name }) {
 
         return roundPrice;
       });
-    });
-  }, [exchangeTo]);
 
-  if (!price) return false;
+      setPersent(priceChangePercent);
+    }, 2500);
+  };
+
+  useEffect(() => {
+    const pair = (name + filter).toLowerCase();
+    setFormatName(pair.replace(filter, `/${filter}`));
+    findPercent();
+    // const ws = new WebSocket(
+    //   `wss://stream.binance.com:9443/ws/${pair}@miniTicker`
+    // );
+    // ws.addEventListener("message", (e) => {
+    //   const res = JSON.parse(e.data);
+    //   const roundPrice = parseFloat(res.c).toFixed(point);
+    //  // findPercent();
+    //   setPrice((prevPrice) => {
+    //     if (prevPrice > roundPrice) {
+    //       colorPraice.current = "low";
+    //     } else {
+    //       colorPraice.current = "rise";
+    //     }
+
+    //     return roundPrice;
+    //   });
+    // });
+  }, []);
+
+  if (!price) return <LoaderAsk />;
 
   return (
     <div className={styles.pairItem} onClick={switchCurrency}>
       <div className={styles.pairItemName}>
         <span className={styles.pairWhite}>{formatName}</span>
-        <span>{exchangeTo}</span>
+        {/* <span>{filter}</span> */}
       </div>
       <div className={`${styles.pairItemPrice} ${colorPraice.current}`}>
         {price}

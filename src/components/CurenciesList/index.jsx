@@ -1,30 +1,31 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setFilter } from "../../redux/slices/filterSlice";
 import styles from "./CurenciesList.module.scss";
 import Pair from "../Pair";
-import { list } from "../../utils/settings";
+import { filterList, FILTERS } from "../../DB_local/settings";
 
 const CurenciesList = () => {
+  const dispatch = useDispatch();
   const [newPairs, setNewPairs] = useState([]);
   const [searchVal, setSearchVal] = useState("");
 
-  const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
+  // const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
+  const filter = useSelector((state) => state.filter.filterTo);
 
-  const getAllPairs = async () => {
-    const items = list.filter((obj) => obj.includes(exchangeTo));
-    const listPairs = items.slice(0, 15);
-
+  const getAllPairs = () => {
+    const items = filterList[filter];
+    const listPairs = items.slice(0, 25);
     setNewPairs(listPairs);
   };
-  const filterPairs = (query) => {
-    const filtered = list.filter((obj) => obj.includes(query.toUpperCase()));
 
-    setNewPairs(filtered);
-    console.log(filtered);
+  const filterPairs = (val) => {
+    dispatch(setFilter(val));
   };
+
   useEffect(() => {
     getAllPairs();
-  }, [exchangeTo]);
+  }, [filter]);
 
   const findPair = (e) => {
     setSearchVal(e.target.value);
@@ -47,18 +48,16 @@ const CurenciesList = () => {
         <button type="button" className="filterButton ">
           <span className="material-symbols-outlined favoriteIcon">star</span>
         </button>
-        <button type="button" className="filterButton active">
-          USDT
-        </button>
-        <button type="button" className="filterButton">
-          BTC
-        </button>
-        <button type="button" className="filterButton">
-          ETH
-        </button>
-        <button type="button" className="filterButton">
-          UAH
-        </button>
+        {FILTERS.map((obj) => (
+          <button
+            type="button"
+            onClick={() => filterPairs(obj)}
+            className={obj === filter ? "filterButton  active" : "filterButton"}
+            key={obj}
+          >
+            {obj}
+          </button>
+        ))}
       </div>
       <div className={styles.currencyListContainerTitles}>
         <span>Pair</span>

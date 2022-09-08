@@ -17,6 +17,14 @@ $accent: #00cce1;
         font-size: 15px;
         font-weight: 600;
         padding: 8px ;
+        span{
+            text-align: right;
+            flex: 1;
+            &:first-child{
+                text-align: left;
+            }
+        }
+        
     }
     .currencyListSearch{
         width: 100%;

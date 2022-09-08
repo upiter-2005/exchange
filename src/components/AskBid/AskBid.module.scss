@@ -3,7 +3,7 @@ $accent: #00cce1;
     border: 1px solid #6d7074;
     padding: 12px 8px 12px 4px;
     
-    width: 341px;
+    width: 314px;
     &Columns{
         flex: 1 1 0%;
         text-align: right;
@@ -14,7 +14,7 @@ $accent: #00cce1;
     &Inner{
         overflow-y: scroll;
         overflow-x: hidden;
-        height: 300px;
+        height: 348px;
         padding: 10px;
     }
     &CurrentPrice{

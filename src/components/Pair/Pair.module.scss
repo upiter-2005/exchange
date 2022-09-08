@@ -10,16 +10,22 @@
     &:hover{
         background-color: #2b3139;
     }
+    div{
+        width: 33%;
+        text-align: right;
+    }
     .pairItemName{
         font-weight: 500;
         padding-left: 7px;
+        text-align: left;
     }
     .pairItemPrice{
-        
+        text-align: right;
         padding-right: 6px;
         //right: -29px;
     }
     .pairWhite{
         color: #fff;
+        text-transform: uppercase;
     }
 }
