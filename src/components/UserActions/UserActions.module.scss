@@ -1,5 +1,18 @@
-.UserActionsBox{
+.userActions{
     border: 1px solid #6d7074;
     padding: 12px 8px 12px 4px;
     width: 100%;
+
+    &Header{
+        width: 100%;
+        background-color: rgb(86, 86, 86);
+        display: flex;
+       
+        box-sizing: border-box;
+        &Items{
+            text-align: center;
+            flex: 1;
+            padding: 10px;
+        }
+    }
 }

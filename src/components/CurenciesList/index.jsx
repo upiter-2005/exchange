@@ -1,42 +1,40 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setFilter } from "../../redux/slices/filterSlice";
+// import { useSelector } from "react-redux";
 import styles from "./CurenciesList.module.scss";
 import Pair from "../Pair";
-import { filterList, FILTERS } from "../../DB_local/settings";
+import { filterList } from "../../DB_local/settings";
 
 const CurenciesList = () => {
-  const dispatch = useDispatch();
   const [newPairs, setNewPairs] = useState([]);
-  const [searchVal, setSearchVal] = useState("");
+  // const [searchVal, setSearchVal] = useState("");
 
   // const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
-  const filter = useSelector((state) => state.filter.filterTo);
 
   const getAllPairs = () => {
-    const items = filterList[filter];
+    let items = [];
+    items = filterList.usdt;
+    console.log(items);
     // const listPairs = items.slice(0, 25);
 
     setNewPairs(items);
   };
 
-  const filterPairs = (val) => {
-    dispatch(setFilter(val));
-  };
+  // const filterPairs = (val) => {
+  //   dispatch(setFilter(val));
+  // };
 
   useEffect(() => {
     getAllPairs();
-    console.log(newPairs);
-  }, [filter]);
+  }, []);
 
-  const findPair = (e) => {
-    setSearchVal(e.target.value);
-    filterPairs(e.target.value);
-  };
+  // const findPair = (e) => {
+  //   setSearchVal(e.target.value);
+  //   filterPairs(e.target.value);
+  // };
 
   return (
     <div className={styles.currencyListContainer}>
-      <div className={styles.currencyListSearch}>
+      {/* <div className={styles.currencyListSearch}>
         <span className="material-symbols-outlined searchInput">search</span>
         <input
           type="text"
@@ -60,7 +58,7 @@ const CurenciesList = () => {
             {obj}
           </button>
         ))}
-      </div>
+      </div> */}
       <div className={styles.currencyListContainerTitles}>
         <span>Pair</span>
         <span>Price</span>

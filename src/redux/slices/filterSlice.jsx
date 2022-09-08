@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  filterTo: "usdt",
+  filterTo: "eth",
 };
 
 export const filterSlice = createSlice({

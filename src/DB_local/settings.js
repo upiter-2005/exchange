@@ -2130,8 +2130,6 @@ export const filterList = {
     "RUNE",
     "VET",
     "THETA",
-    "NEAR",
-    "SOL",
   ],
   bnb: [
     "AAVE",

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import qs from "qs";
 import { setCurrency } from "../../redux/slices/activePair";
 
@@ -13,7 +13,6 @@ export default function Pair({ name }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
-  const filter = useSelector((state) => state.filter.filterTo);
 
   const colorPraice = useRef("");
   const persentColor = useRef("");
@@ -24,21 +23,16 @@ export default function Pair({ name }) {
   const switchCurrency = () => {
     const queryString = qs.stringify({ pair: name });
     navigate(`?${queryString}`);
-
     dispatch(
       setCurrency({
-        currency: name.replace(exchangeTo, ""),
-        exchangeTo: filter.toUpperCase(),
+        currency: name.toUpperCase(),
+        exchangeTo: exchangeTo.toUpperCase(),
       })
     );
   };
 
   const findPercent = () => {
-    let point = 2;
-    if (filter === "eth") point = 4;
-    if (filter === "btc") point = 6;
-    if (filter === "bnb") point = 6;
-    const pair = (name + filter).toUpperCase();
+    const pair = (name + exchangeTo).toUpperCase();
     setInterval(async () => {
       const dayData = await fetch(`${dayDataUrl}${pair}`)
         .then((data) => data.json())
@@ -53,7 +47,7 @@ export default function Pair({ name }) {
         persentColor.current = "low";
       }
 
-      const roundPrice = parseFloat(dayData.askPrice).toFixed(point);
+      const roundPrice = parseFloat(dayData.askPrice).toFixed(2);
       setPrice((prevPrice) => {
         if (prevPrice > roundPrice) {
           colorPraice.current = "low";
@@ -69,8 +63,8 @@ export default function Pair({ name }) {
   };
 
   useEffect(() => {
-    const pair = (name + filter).toLowerCase();
-    setFormatName(pair.replace(filter, `/${filter}`));
+    const pair = (name + exchangeTo).toLowerCase();
+    setFormatName(pair.replace(exchangeTo, `/${exchangeTo}`));
     findPercent();
     // const ws = new WebSocket(
     //   `wss://stream.binance.com:9443/ws/${pair}@miniTicker`
@@ -97,7 +91,6 @@ export default function Pair({ name }) {
     <div className={styles.pairItem} onClick={switchCurrency}>
       <div className={styles.pairItemName}>
         <span className={styles.pairWhite}>{formatName}</span>
-        {/* <span>{filter}</span> */}
       </div>
       <div className={`${styles.pairItemPrice} ${colorPraice.current}`}>
         {price}
