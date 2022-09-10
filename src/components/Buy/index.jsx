@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Slider from "@mui/material/Slider";
 import styles from "./Buy.module.scss";
@@ -28,10 +28,13 @@ const marks = [
 ];
 
 export default function Buy() {
+  const [balance, setBalance] = useState(0);
   const [priceValue] = useState(0);
+  const [amount, setAmount] = useState(0);
   // const priceEl = useRef();
   const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
   const currency = useSelector((state) => state.activePair.currency);
+  const balanceCoin = useSelector((state) => state.user.balance);
 
   const priceHandler = () => {
     console.log("price ch");
@@ -39,13 +42,29 @@ export default function Buy() {
   const amountHandler = () => {
     console.log("amount ch");
   };
+  useEffect(() => {
+    if (balanceCoin[exchangeTo]) {
+      setBalance(balanceCoin[exchangeTo]);
+    } else {
+      setBalance(0);
+    }
+  }, [exchangeTo]);
 
-  const valuetext = (value) => `${value}%`;
+  const valuetext = (value) => {
+    const res = (value / 100) * balance;
+    setAmount(res);
+
+    return `${value}%`;
+  };
 
   return (
     <div className="tradeBox">
       <div className="avaliable">
-        Avlb <span className="avaliable__value">7777 USDT</span>
+        Avlb{" "}
+        <span className="avaliable__value">
+          {" "}
+          {balance} {currency}
+        </span>
       </div>
       <div className="tradeBox__field">
         <div className="tradeBox__field-prefix">
@@ -71,7 +90,7 @@ export default function Buy() {
           type="number"
           id="amount_field"
           className="tradeBox__field-input"
-          value={priceValue}
+          value={amount}
           onChange={amountHandler}
         />
         <div className="tradeBox__field-sufix">

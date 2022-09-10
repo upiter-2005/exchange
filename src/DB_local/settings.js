@@ -2095,6 +2095,7 @@ export const FILTERS = ["usdt", "btc", "eth", "bnb"];
 export const filterList = {
   usdt: [
     "BTC",
+    "ETH",
     "LTC",
     "NEO",
     "XRP",

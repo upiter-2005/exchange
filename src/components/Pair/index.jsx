@@ -21,8 +21,9 @@ export default function Pair({ name }) {
   const [formatName, setFormatName] = useState("");
 
   const switchCurrency = () => {
-    const queryString = qs.stringify({ pair: name });
+    const queryString = qs.stringify({ pair: name + exchangeTo });
     navigate(`?${queryString}`);
+    document.title = `${name + exchangeTo} - Bitlex`;
     dispatch(
       setCurrency({
         currency: name.toUpperCase(),

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+
 import Slider from "@mui/material/Slider";
 import styles from "./Sell.module.scss";
 
@@ -28,24 +29,42 @@ const marks = [
 ];
 
 export default function Sell() {
-  const [priceValue] = useState(0);
-  // const priceEl = useRef();
+  const [balance, setBalance] = useState(0);
+  const [priceValue, setPriceValue] = useState(0);
+  const [amount, setAmount] = useState(0);
   const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
   const currency = useSelector((state) => state.activePair.currency);
-
-  const priceHandler = () => {
-    console.log("price ch");
-  };
-  const amountHandler = () => {
-    console.log("amount ch");
+  const balanceCoin = useSelector((state) => state.user.balance);
+  // console.log(balanceCoin);
+  const priceHandler = (e) => {
+    setPriceValue(e.target.value);
   };
 
-  const valuetext = (value) => `${value}%`;
+  const amountHandler = (e) => {
+    setAmount(e.target.value);
+  };
+
+  useEffect(() => {
+    if (balanceCoin[currency]) {
+      setBalance(balanceCoin[currency]);
+    } else {
+      setBalance(0);
+    }
+  }, [currency]);
+  const valuetext = (value) => {
+    const res = (value / 100) * balance;
+    setAmount(res);
+
+    return `${value}%`;
+  };
 
   return (
     <div className="tradeBox">
       <div className="avaliable">
-        Avlb <span className="avaliable__value">0.32 BTC</span>
+        Avlb{" "}
+        <span className="avaliable__value">
+          {balance} {currency}
+        </span>
       </div>
       <div className="tradeBox__field">
         <div className="tradeBox__field-prefix">
@@ -71,7 +90,7 @@ export default function Sell() {
           type="number"
           id="amount_field"
           className="tradeBox__field-input"
-          value={priceValue}
+          value={amount}
           onChange={amountHandler}
         />
         <div className="tradeBox__field-sufix">
@@ -86,6 +105,7 @@ export default function Sell() {
         valueLabelDisplay="auto"
         marks={marks}
       />
+
       <button
         type="button"
         className={`${styles.sellButton} ${styles.tradeButton}`}
