@@ -2097,6 +2097,7 @@ export const filterList = {
     "BTC",
     "ETH",
     "LTC",
+    "1INCH",
     "NEO",
     "XRP",
     "DOT",

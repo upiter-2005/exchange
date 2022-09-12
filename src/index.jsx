@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { Auth0Provider } from "@auth0/auth0-react";
 import App from "./App";
 import { store } from "./redux/store";
+import "./firebase";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

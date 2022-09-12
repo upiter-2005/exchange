@@ -1,8 +1,12 @@
+/* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+/* eslint-disable import/no-extraneous-dependencies */
 
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
 import Slider from "@mui/material/Slider";
+import { addOrderSell } from "../../redux/slices/userSlice";
 import styles from "./Sell.module.scss";
 
 const marks = [
@@ -29,30 +33,61 @@ const marks = [
 ];
 
 export default function Sell() {
+  const dispatch = useDispatch();
   const [balance, setBalance] = useState(0);
   const [priceValue, setPriceValue] = useState(0);
   const [amount, setAmount] = useState(0);
+  const [validOrder, setValidOrder] = useState(false);
   const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
   const currency = useSelector((state) => state.activePair.currency);
+  const clickPrice = useSelector((state) => state.activePair.clickPrice);
   const balanceCoin = useSelector((state) => state.user.balance);
-  // console.log(balanceCoin);
+
   const priceHandler = (e) => {
     setPriceValue(e.target.value);
   };
 
-  const amountHandler = (e) => {
-    setAmount(e.target.value);
+  const makeOrder = () => {
+    if (amount < 0.00000001) {
+      alert("Insert coin amount");
+
+      return false;
+    }
+    if (priceValue === 0) {
+      alert("Insert price value");
+
+      return false;
+    }
+    if (validOrder) {
+      const time = moment().format("DD-MM-YYYY hh:mm:ss");
+      const order = {
+        currency: currency.toUpperCase(),
+        exchangeTo,
+        price: priceValue,
+        amount,
+        type: "sell",
+        time,
+      };
+      dispatch(addOrderSell(order));
+    }
   };
 
   useEffect(() => {
+    setPriceValue(clickPrice);
+  }, [clickPrice, currency]);
+
+  useEffect(() => {
     if (balanceCoin[currency]) {
-      setBalance(balanceCoin[currency]);
+      setBalance(parseFloat(balanceCoin[currency]).toFixed(6));
+      setValidOrder(true);
     } else {
       setBalance(0);
+      setValidOrder(false);
     }
-  }, [currency]);
+  }, [currency, balanceCoin]);
+
   const valuetext = (value) => {
-    const res = (value / 100) * balance;
+    const res = parseFloat((value / 100) * balance).toFixed(4);
     setAmount(res);
 
     return `${value}%`;
@@ -64,6 +99,9 @@ export default function Sell() {
         Avlb{" "}
         <span className="avaliable__value">
           {balance} {currency}
+        </span>
+        <span className="avaliable__valueResult">
+          &gt; {parseFloat(amount * priceValue).toFixed(2)} {exchangeTo}
         </span>
       </div>
       <div className="tradeBox__field">
@@ -81,7 +119,7 @@ export default function Sell() {
           <label htmlFor="price_field">{exchangeTo}</label>
         </div>
       </div>
-
+      {/* divider area */}
       <div className="tradeBox__field">
         <div className="tradeBox__field-prefix">
           <label htmlFor="amount_field">Amount</label>
@@ -91,7 +129,7 @@ export default function Sell() {
           id="amount_field"
           className="tradeBox__field-input"
           value={amount}
-          onChange={amountHandler}
+          disabled="true"
         />
         <div className="tradeBox__field-sufix">
           <label htmlFor="amount_field">{currency}</label>
@@ -108,7 +146,12 @@ export default function Sell() {
 
       <button
         type="button"
-        className={`${styles.sellButton} ${styles.tradeButton}`}
+        onClick={makeOrder}
+        className={
+          balance === 0
+            ? `${styles.sellButton} ${styles.tradeButton} ${styles.noBalace}`
+            : `${styles.sellButton} ${styles.tradeButton}`
+        }
       >
         Sell {currency}
       </button>

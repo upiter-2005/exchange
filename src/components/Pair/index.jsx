@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import qs from "qs";
-import { setCurrency } from "../../redux/slices/activePair";
+import { setCurrency, setClickPrice } from "../../redux/slices/activePair";
 
 import LoaderAsk from "./LoaderAsk";
 
@@ -49,6 +49,7 @@ export default function Pair({ name }) {
       }
 
       const roundPrice = parseFloat(dayData.askPrice).toFixed(2);
+
       setPrice((prevPrice) => {
         if (prevPrice > roundPrice) {
           colorPraice.current = "low";
@@ -67,6 +68,7 @@ export default function Pair({ name }) {
     const pair = (name + exchangeTo).toLowerCase();
     setFormatName(pair.replace(exchangeTo, `/${exchangeTo}`));
     findPercent();
+    dispatch(setClickPrice(0));
     // const ws = new WebSocket(
     //   `wss://stream.binance.com:9443/ws/${pair}@miniTicker`
     // );

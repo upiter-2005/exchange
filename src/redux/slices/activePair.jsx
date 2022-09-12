@@ -4,6 +4,7 @@ const initialState = {
   currency: "BTC",
   exchangeTo: "USDT",
   chartInterval: "1d",
+  clickPrice: null,
 };
 
 export const activePairSlice = createSlice({
@@ -17,8 +18,13 @@ export const activePairSlice = createSlice({
     setInterval: (state, action) => {
       state.chartInterval = action.payload;
     },
+    setClickPrice: (state, action) => {
+      console.log(action.payload);
+      state.clickPrice = action.payload;
+    },
   },
 });
-export const { setCurrency, setInterval } = activePairSlice.actions;
+export const { setCurrency, setInterval, setClickPrice } =
+  activePairSlice.actions;
 
 export default activePairSlice.reducer;

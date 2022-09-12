@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setClickPrice } from "../../redux/slices/activePair";
 import styles from "./AskBid.module.scss";
 import LoaderAsk from "./LoaderAsk";
 
 export default function AskBid() {
+  const dispatch = useDispatch();
   const colorPraice = useRef("");
   const arrow = useRef("");
 
@@ -72,7 +74,12 @@ export default function AskBid() {
                 key={i}
                 className={`${styles.askBidItem} ${styles.askBidInnerRed}`}
               >
-                <span className={styles.askBidColumns}>
+                <span
+                  className={styles.askBidColumns}
+                  onClick={() =>
+                    dispatch(setClickPrice(parseFloat(obj[0]).toFixed(2)))
+                  }
+                >
                   {parseFloat(obj[0]).toFixed(2)}
                 </span>
                 <span className={styles.askBidColumns}>
@@ -99,7 +106,12 @@ export default function AskBid() {
                 key={i}
                 className={`${styles.askBidItem} ${styles.askBidInnerGreen}`}
               >
-                <span className={styles.askBidColumns}>
+                <span
+                  className={styles.askBidColumns}
+                  onClick={() =>
+                    dispatch(setClickPrice(parseFloat(obj[0]).toFixed(2)))
+                  }
+                >
                   {parseFloat(obj[0]).toFixed(2)}
                 </span>
                 <span className={styles.askBidColumns}>

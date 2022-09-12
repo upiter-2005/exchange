@@ -1,3 +1,4 @@
+$accent: #00cce1;
 .orderItem{
     width: 100%;
     display: flex;
@@ -8,6 +9,35 @@
         text-align: center;
         border-bottom: 1px solid rgb(126, 126, 126);
         padding: 10px;
-        font-size: 14px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #fff;
+    }
+    &ColumnBuy{
+        flex: 1;
+        text-align: center;
+        border-bottom: 1px solid rgb(126, 126, 126);
+        padding: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        color: rgb(10, 155, 0);
+    }
+    &ColumnSell{
+        flex: 1;
+        text-align: center;
+        border-bottom: 1px solid rgb(126, 126, 126);
+        padding: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        color: rgb(255, 99, 9);
+    }
+    .cancel{
+        cursor: pointer;
+        color: $accent;
+        font-weight: 600;
+        text-decoration: underline;
+        &:hover{
+            opacity: 0.6;
+        }
     }
 }
