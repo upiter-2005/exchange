@@ -1,9 +1,53 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from "react-redux";
+import {
+  logOutUser,
+  fetchUserData,
+  createUserData,
+} from "../../redux/slices/userSlice";
 import styles from "./Header.module.scss";
 
 export default function Header() {
+  const dispatch = useDispatch();
   const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
+
+  const customLogOut = () => {
+    dispatch(logOutUser());
+    logout({ returnTo: window.location.origin });
+  };
+
+  const customLogIn = () => {
+    loginWithRedirect();
+  };
+
+  const isUserExist = async (id) => {
+    try {
+      const data = await fetch(
+        `https://627eb2bb271f386ceffc342c.mockapi.io/bitlex/?user=${id}`
+      )
+        .then((response) => response.json())
+        .then((response) => response);
+
+      if (data.length > 0) {
+        dispatch(fetchUserData(id));
+        console.log("fetching");
+      } else {
+        dispatch(createUserData(id));
+        console.log("creating new");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const uid = user.sub.split("|");
+      isUserExist(uid[1]);
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className={styles.header}>
@@ -17,7 +61,7 @@ export default function Header() {
             <button
               type="button"
               className={styles.headerLogIn}
-              onClick={() => logout({ returnTo: window.location.origin })}
+              onClick={customLogOut}
             >
               Log Out
             </button>
@@ -25,7 +69,7 @@ export default function Header() {
             <button
               type="button"
               className={styles.headerLogIn}
-              onClick={() => loginWithRedirect()}
+              onClick={customLogIn}
             >
               Log In
             </button>

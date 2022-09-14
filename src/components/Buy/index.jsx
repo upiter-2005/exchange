@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import Slider from "@mui/material/Slider";
-import { addOrderBuy } from "../../redux/slices/userSlice";
+import { addOrderBuy, updateUserBalance } from "../../redux/slices/userSlice";
 import styles from "./Buy.module.scss";
 
 const marks = [
@@ -59,8 +59,8 @@ export default function Buy() {
       const order = {
         currency: currency.toUpperCase(),
         exchangeTo,
-        price: priceValue,
-        amount,
+        price: Number(priceValue),
+        amount: Number(amount),
         type: "buy",
         time,
       };
@@ -85,6 +85,10 @@ export default function Buy() {
       setValidOrder(false);
     }
   }, [exchangeTo, balanceCoin]);
+  useEffect(() => {
+    console.log("balance change");
+    dispatch(updateUserBalance(balanceCoin));
+  }, [balanceCoin]);
 
   const valuetext = (value) => {
     const res = (

@@ -36,7 +36,6 @@ export default function OrderItem({
 
     dispatch(removeOrder(time));
   };
-  console.log(currency);
 
   return (
     <div className={styles.orderItem}>

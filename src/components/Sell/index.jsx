@@ -63,8 +63,8 @@ export default function Sell() {
       const order = {
         currency: currency.toUpperCase(),
         exchangeTo,
-        price: priceValue,
-        amount,
+        price: Number(priceValue),
+        amount: Number(amount),
         type: "sell",
         time,
       };
@@ -101,7 +101,7 @@ export default function Sell() {
           {balance} {currency}
         </span>
         <span className="avaliable__valueResult">
-          &gt; {parseFloat(amount * priceValue).toFixed(2)} {exchangeTo}
+          - &gt; {parseFloat(amount * priceValue).toFixed(2)} {exchangeTo}
         </span>
       </div>
       <div className="tradeBox__field">
