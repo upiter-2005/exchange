@@ -45,6 +45,7 @@ export default function Header() {
   useEffect(() => {
     if (isAuthenticated) {
       const uid = user.sub.split("|");
+      console.log(uid[1]);
       isUserExist(uid[1]);
     }
   }, [isAuthenticated]);
@@ -57,6 +58,25 @@ export default function Header() {
           cryptocurrency exchange platform
         </div>
         <div className={styles.headerRight}>
+          <Link to="/" className={styles.headerLink}>
+            Trade
+          </Link>
+          <Link to="/orders" className={styles.headerLink}>
+            My orders
+          </Link>
+          {isAuthenticated && (
+            <div className={styles.userBox}>
+              <img
+                src={user.picture}
+                alt={user.name}
+                className={styles.userBoxImg}
+              />
+              <div className={styles.userBoxData}>
+                <h2 className={styles.userBoxName}>{user.name}</h2>
+                <p className={styles.userBoxEmail}>{user.email}</p>
+              </div>
+            </div>
+          )}
           {isAuthenticated ? (
             <button
               type="button"
@@ -73,22 +93,6 @@ export default function Header() {
             >
               Log In
             </button>
-          )}
-          <Link to="/orders" className={styles.headerLink}>
-            My orders
-          </Link>
-          {isAuthenticated && (
-            <div className={styles.userBox}>
-              <img
-                src={user.picture}
-                alt={user.name}
-                className={styles.userBoxImg}
-              />
-              <div className={styles.userBoxData}>
-                <h2 className={styles.userBoxName}>{user.name}</h2>
-                <p className={styles.userBoxEmail}>{user.email}</p>
-              </div>
-            </div>
           )}
         </div>
       </div>

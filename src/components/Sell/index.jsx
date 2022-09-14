@@ -42,6 +42,7 @@ export default function Sell() {
   const currency = useSelector((state) => state.activePair.currency);
   const clickPrice = useSelector((state) => state.activePair.clickPrice);
   const balanceCoin = useSelector((state) => state.user.balance);
+  const updating = useSelector((state) => state.user.updating);
 
   const priceHandler = (e) => {
     setPriceValue(e.target.value);
@@ -146,6 +147,7 @@ export default function Sell() {
 
       <button
         type="button"
+        disabled={updating}
         onClick={makeOrder}
         className={
           balance === 0

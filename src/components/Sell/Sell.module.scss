@@ -12,6 +12,9 @@
     border: none;
     outline: none;
     cursor: pointer;
+    &:disabled{
+        opacity: 0.6;
+    }
 }
 .noBalace{
     cursor: no-drop!important;

@@ -42,6 +42,7 @@ export default function Buy() {
   const exchangeTo = useSelector((state) => state.activePair.exchangeTo);
   const currency = useSelector((state) => state.activePair.currency);
   const balanceCoin = useSelector((state) => state.user.balance);
+  const updating = useSelector((state) => state.user.updating);
 
   const makeOrder = () => {
     if (amount < 0.00000001) {
@@ -152,6 +153,7 @@ export default function Buy() {
       />
       <button
         type="button"
+        disabled={updating}
         onClick={makeOrder}
         className={
           balance === 0

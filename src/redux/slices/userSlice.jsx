@@ -50,7 +50,7 @@ export const createUserData = createAsyncThunk(
   async (id) => {
     const user = {
       user: id,
-      balance: { USDT: 0 },
+      balance: { USDT: 555 },
       orders: [],
     };
     const response = fetch(
