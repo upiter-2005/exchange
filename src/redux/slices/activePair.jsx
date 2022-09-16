@@ -19,7 +19,6 @@ export const activePairSlice = createSlice({
       state.chartInterval = action.payload;
     },
     setClickPrice: (state, action) => {
-      console.log(action.payload);
       state.clickPrice = action.payload;
     },
   },

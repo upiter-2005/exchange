@@ -6,11 +6,11 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 import App from "./App";
 import { store } from "./redux/store";
-import "./firebase";
+import { authProd } from "./DB_local/auth0";
 
 const providerConfig = {
-  domain: "dev-21g073qk.us.auth0.com",
-  clientId: "rUlzQsqDxTVmICqpfuvyGiLfqJJao08i",
+  domain: authProd.domain,
+  clientId: authProd.clientId,
   redirectUri: window.location.origin,
 };
 

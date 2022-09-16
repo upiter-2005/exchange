@@ -50,10 +50,10 @@ export const createUserData = createAsyncThunk(
   async (id) => {
     const user = {
       user: id,
-      balance: { USDT: 555 },
+      balance: { USDT: 800, BTC: 1.3 },
       orders: [],
     };
-    const response = fetch(
+    const response = await fetch(
       "https://627eb2bb271f386ceffc342c.mockapi.io/bitlex/",
       {
         method: "POST",
@@ -63,10 +63,9 @@ export const createUserData = createAsyncThunk(
         body: JSON.stringify(user),
       }
     );
-    const result = await response.json();
-    console.log(result.message);
+    const dataResponse = await response.json();
 
-    return result;
+    return dataResponse;
   }
 );
 
@@ -81,29 +80,31 @@ export const userSlice = createSlice({
       state.uid = action.payload.id;
       state.balance = action.payload.balance;
       state.orders = action.payload.orders;
-      state.isAuth = true;
+      state.isAuth = false;
     },
     [fetchUserData.rejected]: (state) => {
       state.isAuth = false;
     },
-    [createUserData.pending]: (state) => {
-      state.isAuth = false;
+
+    [createUserData.pending]: () => {
+      // state.isAuth = false;
     },
     [createUserData.fulfilled]: (state, action) => {
-      state.isAuth = true;
       state.uid = action.payload.id;
       state.balance = action.payload.balance;
       state.orders = action.payload.orders;
+      state.isAuth = false;
     },
-    [createUserData.rejected]: (state) => {
+    [createUserData.rejected]: (state, action) => {
+      state.uid = action.payload.id;
+      state.balance = action.payload.balance;
+      state.orders = action.payload.orders;
       state.isAuth = false;
     },
     [updateUserBalance.pending]: (state) => {
       state.updating = true;
     },
-    [updateUserBalance.fulfilled]: (state, action) => {
-      console.log("update Balance");
-      console.log(action.payload);
+    [updateUserBalance.fulfilled]: (state) => {
       state.updating = false;
     },
     [updateUserBalance.rejected]: (state) => {

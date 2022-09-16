@@ -11,6 +11,7 @@ import styles from "./Header.module.scss";
 
 export default function Header() {
   const dispatch = useDispatch();
+
   const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   const customLogOut = () => {
@@ -32,10 +33,10 @@ export default function Header() {
 
       if (data.length > 0) {
         dispatch(fetchUserData(id));
-        console.log("fetching");
+        console.log("fetchUserData");
       } else {
         dispatch(createUserData(id));
-        console.log("creating new");
+        console.log("createUserData");
       }
     } catch (error) {
       console.log(error);
@@ -45,10 +46,18 @@ export default function Header() {
   useEffect(() => {
     if (isAuthenticated) {
       const uid = user.sub.split("|");
-      console.log(uid[1]);
       isUserExist(uid[1]);
     }
   }, [isAuthenticated]);
+
+  // useEffect(() => {
+  //   console.log("work useEffect visit");
+  //   if (firstVisit) {
+  //     console.log("work first fetch");
+  //     const uid = user.sub.split("|");
+  //     dispatch(fetchUserData(uid[1]));
+  //   }
+  // }, [firstVisit]);
 
   return (
     <div className={styles.header}>
@@ -61,9 +70,12 @@ export default function Header() {
           <Link to="/" className={styles.headerLink}>
             Trade
           </Link>
-          <Link to="/orders" className={styles.headerLink}>
-            My orders
-          </Link>
+          {isAuthenticated && (
+            <Link to="/orders" className={styles.headerLink}>
+              My account
+            </Link>
+          )}
+
           {isAuthenticated && (
             <div className={styles.userBox}>
               <img

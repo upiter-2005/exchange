@@ -18,9 +18,11 @@ export default function UserActions() {
         <span className={styles.userActionsHeaderItems}>Cancel</span>
       </div>
 
-      {items.map((obj) => (
-        <OrderItem {...obj} key={obj.time} />
-      ))}
+      {items.length > 0 ? (
+        items.map((obj) => <OrderItem {...obj} key={obj.time} />)
+      ) : (
+        <div className={styles.userActionsNoOrder}>You have no open orders</div>
+      )}
     </div>
   );
 }

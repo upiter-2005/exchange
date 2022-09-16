@@ -86,8 +86,8 @@ export default function Buy() {
       setValidOrder(false);
     }
   }, [exchangeTo, balanceCoin]);
+
   useEffect(() => {
-    console.log("balance change");
     dispatch(updateUserBalance(balanceCoin));
   }, [balanceCoin]);
 

@@ -15,26 +15,6 @@ export default function Info() {
   const [hightPrice, setHightPrice] = useState("");
   const [persentChange, setPersentChange] = useState("");
 
-  // const findParams = async () => {
-  //   const pair = (currency + exchangeTo).toLowerCase();
-  //   const ws2 = new WebSocket(
-  //     `wss://stream.binance.com:9443/ws/${pair}@ticker`
-  //   );
-  //   ws2.addEventListener("message", (e) => {
-  //     const res = JSON.parse(e.data);
-
-  //     const priceChangePercent = (((res.c - res.o) / res.c) * 100).toFixed(2);
-  //     if (priceChangePercent > 0) {
-  //       persentColor.current = "rise";
-  //     } else {
-  //       persentColor.current = "low";
-  //     }
-  //     setPersentChange(priceChangePercent);
-  //     setLowPrice(parseFloat(res.l).toFixed(2));
-  //     setHightPrice(parseFloat(res.h).toFixed(2));
-  //   });
-  // };
-
   useEffect(() => {
     const pairParams = (currency + exchangeTo).toLowerCase();
     const ws2 = new WebSocket(
