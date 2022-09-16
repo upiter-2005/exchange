@@ -70,6 +70,23 @@ export default function Pair({ name }) {
     setFormatName(pair.replace(exchangeTo, `/${exchangeTo}`));
     findPercent();
     dispatch(setClickPrice(0));
+    // const ws = new WebSocket(
+    //   `wss://stream.binance.com:9443/ws/${pair}@miniTicker`
+    // );
+    // ws.addEventListener("message", (e) => {
+    //   const res = JSON.parse(e.data);
+    //   const roundPrice = parseFloat(res.c).toFixed(point);
+    //  // findPercent();
+    //   setPrice((prevPrice) => {
+    //     if (prevPrice > roundPrice) {
+    //       colorPraice.current = "low";
+    //     } else {
+    //       colorPraice.current = "rise";
+    //     }
+
+    //     return roundPrice;
+    //   });
+    // });
   }, []);
 
   if (!price) return <LoaderAsk />;
