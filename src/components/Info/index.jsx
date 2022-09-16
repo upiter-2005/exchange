@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import styles from "./Info.module.scss";
+import LoaderAsk from "./LoaderAsk";
 
 export default function Info() {
   const currency = useSelector((state) => state.activePair.currency);
@@ -10,7 +11,7 @@ export default function Info() {
   const arrow = useRef("");
   const persentColor = useRef("");
 
-  const [currentPrice, setCurrentPrice] = useState("");
+  const [currentPrice, setCurrentPrice] = useState(0);
   const [lowPrice, setLowPrice] = useState("");
   const [hightPrice, setHightPrice] = useState("");
   const [persentChange, setPersentChange] = useState("");
@@ -56,6 +57,7 @@ export default function Info() {
     return () => {
       ws.close();
       ws2.close();
+      setCurrentPrice(0);
     };
   }, [currency]);
 
@@ -63,8 +65,10 @@ export default function Info() {
     <div className={styles.infoBox}>
       <div className={styles.infoBoxName}>{currency + exchangeTo}</div>
       <div className={`${colorPraice.current} currentPrice`}>
-        {currentPrice}
-        <span className="material-symbols-outlined">{arrow.current}</span>
+        {currentPrice === 0 ? <LoaderAsk /> : currentPrice}
+        <span className="material-symbols-outlined">
+          {currentPrice !== 0 && arrow.current}
+        </span>
       </div>
       <div className={styles.infoBoxItem}>
         <div className={styles.infoBoxTop}>24h Change</div>

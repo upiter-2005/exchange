@@ -64,7 +64,7 @@ export default function Header() {
       <div className={styles.headerInner}>
         <div className={styles.headerLogo}>BITLEX</div>
         <div className={styles.headerDesc}>
-          cryptocurrency exchange platform
+          cryptocurrency exchange demo platform
         </div>
         <div className={styles.headerRight}>
           <Link to="/" className={styles.headerLink}>

@@ -52,6 +52,7 @@ export default function AskBid() {
     return () => {
       priceSocket.close();
       bid.close();
+      setCurrentPrice(0);
     };
   }, [currency]);
 
@@ -93,9 +94,9 @@ export default function AskBid() {
       </div>
       {/* <div className={styles.askBidCurrentPrice}>{currentPrice}</div> */}
       <div className={`${colorPraice.current} currentPrice`}>
-        {currentPrice}
+        {currentPrice === 0 ? <LoaderAsk /> : currentPrice}
         <span className="material-symbols-outlined askBidArrow">
-          {arrow.current}
+          {currentPrice !== 0 && arrow.current}
         </span>
       </div>
       <div className={`${styles.askBidInner} `}>
