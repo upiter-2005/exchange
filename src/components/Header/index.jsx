@@ -33,10 +33,8 @@ export default function Header() {
 
       if (data.length > 0) {
         dispatch(fetchUserData(id));
-        console.log("fetchUserData");
       } else {
         dispatch(createUserData(id));
-        console.log("createUserData");
       }
     } catch (error) {
       console.log(error);
@@ -49,15 +47,6 @@ export default function Header() {
       isUserExist(uid[1]);
     }
   }, [isAuthenticated]);
-
-  // useEffect(() => {
-  //   console.log("work useEffect visit");
-  //   if (firstVisit) {
-  //     console.log("work first fetch");
-  //     const uid = user.sub.split("|");
-  //     dispatch(fetchUserData(uid[1]));
-  //   }
-  // }, [firstVisit]);
 
   return (
     <div className={styles.header}>

@@ -12,7 +12,6 @@ import styles from "./Sell.module.scss";
 const marks = [
   {
     value: 0,
-    //  label: "0%",
   },
   {
     value: 25,
@@ -28,7 +27,6 @@ const marks = [
   },
   {
     value: 100,
-    // label: "100%",
   },
 ];
 
